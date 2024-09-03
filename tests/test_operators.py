@@ -180,7 +180,11 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError('Need to implement for Task 0.3')
+    ans1 = sum(ls1) + sum(ls2)
+    ans2=0
+    for a,b in zip(ls1,ls2):
+        ans2 += a+b
+    assert abs(ans1 - ans2) <= 1e-9
 
 
 @pytest.mark.task0_3
