@@ -201,7 +201,7 @@ def reduce(
     def inner(lst: Iterable[float]) -> float:
         ans = start
         for data in lst:
-            ans = fn(ans, data)
+            ans = fn(data, ans)
         return ans
     return inner
 
