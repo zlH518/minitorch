@@ -106,6 +106,7 @@ def test_module(size_a: int, size_b: int) -> None:
     module = Module2(size_b)
     assert len(module.parameters()) == size_b + 3
 
+
     module = Module2(size_a)
     named_parameters = dict(module.named_parameters())
     assert named_parameters["parameter_a"].value == VAL_A

@@ -30,17 +30,17 @@ class Module:
         return list(m.values())
 
     def train(self) -> None:
-        "Set the mode of this module and all descendent modules to `train`."
+        "Set the mode of this module and all dest modules to `train`."
         # TODO: Implement for Task 0.4.
         self.training = True
-        for module in self._modules:
+        for module in self._modules.values():
             module.training = True
 
     def eval(self) -> None:
         "Set the mode of this module and all descendent modules to `eval`."
         # TODO: Implement for Task 0.4.
         self.training = False
-        for module in self._modules:
+        for module in self._modules.values():
             module.training = False
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
@@ -50,12 +50,32 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
         """
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        # named_parameters = {}
+
+        # def add_parameters(parameters: Dict[str, Parameter], father_module_name: str = '') -> None:
+        #     for key in parameters.keys():
+        #         if father_module_name == '':
+        #             named_parameters[key] = parameters[key]
+        #         else:
+        #             named_parameters[father_module_name + '.' + key] = parameters[key]
+        # add_parameters(self._parameters)
+        # for module in self._modules:
+        #     add_parameters(parameters=module.)
+
 
     def parameters(self) -> Sequence[Parameter]:
         "Enumerate over all the parameters of this module and its descendents."
         # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        ans = []
+        for parameter in self._parameters.values():
+            ans.append(parameter)
+        if len(self._modules) == 0:
+            return ans
+        else:
+            for module in self._modules.values():
+                ans.extend(module.parameters())
+        return ans
+
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """
@@ -127,6 +147,13 @@ class Parameter:
     any value for testing.
     """
 
+    '''
+    在Python的typing模块中，Optional是一个用于类型提示的泛型类型，
+    它表示一个值可以是指定的类型，或者是None。这在函数定义中非常有用，
+    特别是当你希望某个参数是可选的，也就是说，调用者可以选择不提供这个参数，
+    此时参数的值就是None。
+    '''
+
     def __init__(self, x: Any, name: Optional[str] = None) -> None:
         self.value = x
         self.name = name
@@ -138,7 +165,7 @@ class Parameter:
     def update(self, x: Any) -> None:
         "Update the parameter value."
         self.value = x
-        if hasattr(x, "requires_grad_"):
+        if hasattr(x, "requires_grad_"):  # 表明如果x是一个可以计算梯度的张量，例如Tensor，那么则设置成可以计算梯度
             self.value.requires_grad_(True)
             if self.name:
                 self.value.name = self.name
