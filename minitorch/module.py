@@ -44,6 +44,7 @@ class Module:
             module.training = False
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
+
         """
         Collect all the parameters of this module and its descendents.
         Returns:
