@@ -4,7 +4,6 @@ import pytest
 
 import minitorch
 from minitorch import Context, ScalarFunction, ScalarHistory
-
 # ## Task 1.3 - Tests for the autodifferentiation machinery.
 
 # Simple sanity check and debugging tests.
@@ -95,6 +94,19 @@ def test_chain_rule4() -> None:
     # assert variable.name == var2.name
     assert deriv == 5 * 5
 
+@pytest.mark.task1_3
+@pytest.mark.xfail
+def test_chain_rule5() -> None:
+    x = minitorch.Scalar(5)
+    y = minitorch.Scalar(10)
+    z = (x*y).log() + (x*y).exp()
+    print(z.history)
+    back = z.chain_rule(d_output=5)
+    for variable, deriv in back:
+        print(variable, deriv)
+        print(variable.chain_rule(deriv))
+    print(back)
+    assert 1==0
 
 # ## Task 1.4 - Run some simple backprop tests
 
