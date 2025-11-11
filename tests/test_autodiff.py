@@ -3,7 +3,7 @@ from typing import Tuple
 import pytest
 
 import minitorch
-from minitorch import Context, ScalarFunction, ScalarHistory
+from minitorch import Context, ScalarFunction, ScalarHistory, topological_sort
 # ## Task 1.3 - Tests for the autodifferentiation machinery.
 
 # Simple sanity check and debugging tests.
@@ -111,7 +111,14 @@ def test_chain_rule5() -> None:
 # ## Task 1.4 - Run some simple backprop tests
 
 # Main tests are in test_scalar.py
-
+@pytest.mark.task1_4
+def test_topological_sort() -> None:
+    x = minitorch.Scalar(5)
+    y = minitorch.Scalar(10)
+    z = (x*y).log() + (x*y).exp()
+    graph = topological_sort(z)
+    print(graph)
+    assert len(graph) == 5
 
 @pytest.mark.task1_4
 def test_backprop1() -> None:

@@ -64,8 +64,16 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
         Non-constant Variables in topological order starting from the right.
     """
     # TODO: Implement for Task 1.4.
-    raise NotImplementedError('Need to implement for Task 1.4')
-
+    graph = []
+    graph.append(variable)
+    flag = 0
+    while flag!=len(graph):
+        if len(graph[flag].parents) != 0:
+            for parent in graph[flag].parents:
+                if parent not in graph:
+                    graph.append(parent)
+        flag += 1
+    return graph
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
     """
